@@ -6,7 +6,7 @@ http
   .createServer(function (request, response) {
     response.writeHead(200, { 'Content-Type': 'text/plain' });
 
-    response.end('Hello\n');
+    response.end('This is the app: customer-app-56862\n');
   })
   .listen(port);
 

@@ -6,7 +6,23 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      - heroku/deploy-via-git:
+      - deploy_to_heroku:
           filters:
             branches:
-              only: master
+              only: /customer-.*/
+jobs:
+  deploy_to_heroku:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - run:
+          name: Setup ENVs
+          command: |
+            echo "export HEROKU_APP_NAME=$CIRCLE_BRANCH" >> $BASH_ENV
+            source $BASH_ENV
+            echo "CIRCLE_BRANCH: $CIRCLE_BRANCH"
+            echo "HEROKU_APP_NAME: $HEROKU_APP_NAME"
+      - heroku/deploy-via-git:
+          force: true
+  
